@@ -1,0 +1,128 @@
+\documentclass[a4paper, 12pt]{report}
+
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{comment}
+\usepackage{amssymb}
+\usepackage{commath}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{float}
+
+\geometry{portrait, margin= 0.5in}
+\setcounter{MaxMatrixCols}{30}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+	columns=fullflexible,
+	frame=single,
+	breaklines=true,
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	keepspaces=true,                 
+	numbersep=5pt,                  
+	showspaces=false,               
+	showtabs=false,                  
+	tabsize=2
+}
+
+\title{Sizing Algorithm Documentation}
+\author{Team 7}
+\date{$21^{st}$ June 2022}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\begin{center}
+
+
+\section{Rationale}
+We need to determine $2$ very important things:
+\begin{enumerate}
+\item The thrust to weight ratio affects:
+\begin{itemize}
+\item acceleration:
+\item climb rate:
+\item maximum speed:
+\item turn rate:
+\item Aircraft Endurance:
+\end{itemize}
+\item The stall speed is directly determined by the wing loading and the maximum lift coefficient. Wing Loading will affect:
+\begin{itemize}
+\item stall speed
+\item induced drag
+\item take-off distance
+\end{itemize}
+\end{enumerate}
+
+\section{Sizing Methodology}
+\begin{enumerate}
+\item First Method:
+    \begin{enumerate}
+    \item Firstly use the stall speed to determine wing loading
+        Stall speed should be independent of engine size
+    \item After figuring out wing loading, determine the thrust to weight ratio based on 
+        takeoff distance
+        Rate of climb
+    \end{enumerate}
+\item Second Alternative Method:
+    \begin{enumerate}
+    \item Determine the Thrust to Weight Ratio
+    \item Determine the wing loading by direct computation 
+    \end{enumerate}
+\end{enumerate}
+
+$q$ is the dynamic pressure of an aircraft flying. It is defined as
+$$q = \frac{1}{2}\rho v^{2}$$
+
+
+The equation below was found in page $118$,
+$$\frac{T}{W} = \left(\frac{\eta_{p}}{V}\right)\left(\frac{P}{W}\right)$$
+wherein $\eta_{p}$ represents the propeller efficiency, 
+$P$ represents power of the engines, $W$ represents the weight of the aircraft,
+$V$ represents the true air speed of the aircraft.
+
+Wing loading is basically the weight of the aircraft divided by the total wing area.
+$$L_{wi} = \frac{W}{S} = \frac{1}{2}\rho v_{stall}^{2} c_{L,max}$$
+Our typical would be around $c_{L,max} \approx 1.2->1.5$, 
+Sweep only reduces your maximum coefficient of lift. 
+
+
+
+
+
+\section{Textual References}
+\begin{enumerate}
+\item Page $117$ has table for thrust to weight of typical aircrafts.
+\item Page $119$ has a table for power to weight ratio of typical aircrafts.
+\item Page $124$ has a tabel for typical wing loadings.
+\item Page $126$ has description on typical $c_{L,max}$ values.
+\end{enumerate}
+
+
+\begin{comment}
+Take-off distance is shown in this equation for a propeller (Page $130$)
+$$\frac{W}{S} = T_{op} \sigma c_{L,TO}(hp/W)$$
+wherein $T_{op}$ represents
+$\sigma$ represents the density ratio. This is basically just the air density $\rho$ at takeoff altitude divided by sea-level density
+$c_{L,TO}$ represents the take-off lift coefficient. This is the maximum lift coefficient divided by $1.21 = 1.1^{2}$. This is because the aircraft takes off at around $1.1$ of its stall speed.
+$hp$ represents 
+$W$ represents take-off weight of the aircraft
+\end{comment}
+
+
+\end{center}
+\end{document}
