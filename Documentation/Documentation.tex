@@ -85,21 +85,40 @@ We need to determine $2$ very important things:
     \end{enumerate}
 \end{enumerate}
 
+\section{Common Definitions}
+\begin{comment}
+\end{comment}
 $q$ is the dynamic pressure of an aircraft flying. It is defined as
 $$q = \frac{1}{2}\rho v^{2}$$
+wherein $\rho$ represents the density of the air, $v$ represents the velocity the aircraft is flying at.
 
 
-The equation below was found in page $118$,
-$$\frac{T}{W} = \left(\frac{\eta_{p}}{V}\right)\left(\frac{P}{W}\right)$$
-wherein $\eta_{p}$ represents the propeller efficiency, 
-$P$ represents power of the engines, $W$ represents the weight of the aircraft,
-$V$ represents the true air speed of the aircraft.
-
+\section{Stall Speed Constraint}
+\begin{comment}
+\end{comment}
 Wing loading is basically the weight of the aircraft divided by the total wing area.
 $$L_{wi} = \frac{W}{S} = \frac{1}{2}\rho v_{stall}^{2} c_{L,max}$$
 Our typical would be around $c_{L,max} \approx 1.2->1.5$, 
 Sweep only reduces your maximum coefficient of lift. 
 
+
+\section{Climb Rate Constraint}
+The cimb rate $G$ is defined as the ratio between vertical and horizontal distance travelled when the aircraft is climbing
+$D$ is going to represent drag. 
+\begin{equation}\frac{D}{W} = \frac{T}{W } - G \label{Kinematic Relation}\end{equation}
+There is also another relation for drag to weight ratio,
+\begin{equation}\frac{D}{W } = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} \label{Drag to Weight Ratio}\end{equation}
+wherein $A_{r}$ is the aspect ratio of the wings, and $e$ represents the efficiency factor due to deviating from the elliptic lift distribution.
+Substituting equation $\ref{Kinematic Relation}$ into equation $\ref{Drag to Weight Ratio}$ and solving for $\displaystyle\frac{T}{W }$,
+$$\frac{D}{W } = \frac{T}{W } - G  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} $$
+$$\frac{T}{W }  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} + G $$
+
+\section{Estimation of Motor Power Rating}
+The equation below was found in page $118$,
+$$\frac{T}{W} = \left(\frac{\eta_{p}}{V}\right)\left(\frac{P}{W}\right)$$
+wherein $\eta_{p}$ represents the propeller efficiency, 
+$P$ represents power of the engines, $W$ represents the weight of the aircraft,
+$V$ represents the true air speed of the aircraft.
 
 
 
