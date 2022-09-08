@@ -5,8 +5,8 @@ clear;
 
 % UNKNOWNS
 prec = 100;
-mf_empty = linspace(0.45,0.7,prec);
-E_spec = linspace(80,150,prec) * 3600;        % watt hr/kg->watt sec/kg
+%mf_empty = linspace(0.45,0.7,prec);
+%E_spec = linspace(80,150,prec) * 3600;        % watt hr/kg->watt sec/kg
 
 m_prop = 0.35;      % kg
 m_other = 0.2;      % kg
@@ -69,5 +69,4 @@ for i = 1:1:length(m_payload_array)
 end
 xlabel('Empty Mass Fraction')
 ylabel('Battery Energy Density (Watt hr/kg)')
-zlabel('Takeoff Weight (kg)')
-legend('0.5 lbs','1 lbs','1.5 lbs')
+zlabel('Take off Weight')
