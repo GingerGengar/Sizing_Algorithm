@@ -70,4 +70,6 @@ end
 xlabel('Empty Mass Fraction')
 ylabel('Battery Energy Density (Watt hr/kg)')
 zlabel('Takeoff Weight (kg)')
-legend('0.5 lbs','1 lbs','1.5 lbs')
+hleg = legend('0.5 lbs','1 lbs','1.5 lbs');
+htitle = get(hleg,'Title');
+set(htitle,'String','Payload Weight')
