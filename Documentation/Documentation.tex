@@ -1,55 +1,25 @@
-\documentclass[a4paper, 12pt]{report}
+\documentclass[letter, 12pt]{article}
 
-\usepackage{amsmath}
-\usepackage{esint}
-\usepackage{comment}
-\usepackage{amssymb}
-\usepackage{commath}
-\usepackage{geometry}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{listings}
-\usepackage{xcolor}
-\usepackage{array}
-\usepackage{float}
-
-\geometry{portrait, margin= 0.5in}
-\setcounter{MaxMatrixCols}{30}
-
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstset{
-	columns=fullflexible,
-	frame=single,
-	breaklines=true,
-	backgroundcolor=\color{backcolour},   
-	commentstyle=\color{codegreen},
-	keywordstyle=\color{magenta},
-	numberstyle=\tiny\color{codegray},
-	stringstyle=\color{codepurple},
-	basicstyle=\ttfamily\footnotesize,
-	keepspaces=true,                 
-	numbersep=5pt,                  
-	showspaces=false,               
-	showtabs=false,                  
-	tabsize=2
-}
-
-\title{Sizing Algorithm Documentation}
-\author{Team 7}
-\date{$21^{st}$ June 2022}
+%Packages used and configurations of the document
+\input{Pre_Amble.tex}
+%The Title of the document and its authors
+\input{Titles_Authors.tex}
 
 \begin{document}
 \maketitle
+\newpage
 \tableofcontents
 \newpage
 \begin{center}
 
-
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
 \section{Rationale}
+\begin{comment}
+\end{comment}
 We need to determine $2$ very important things:
 \begin{enumerate}
 \item The thrust to weight ratio affects:
@@ -68,7 +38,14 @@ We need to determine $2$ very important things:
 \end{itemize}
 \end{enumerate}
 
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
 \section{Sizing Methodology}
+\begin{comment}
+\end{comment}
 \begin{enumerate}
 \item First Method:
     \begin{enumerate}
@@ -85,6 +62,11 @@ We need to determine $2$ very important things:
     \end{enumerate}
 \end{enumerate}
 
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
 \section{Common Definitions}
 \begin{comment}
 \end{comment}
@@ -92,17 +74,27 @@ $q$ is the dynamic pressure of an aircraft flying. It is defined as
 $$q = \frac{1}{2}\rho v^{2}$$
 wherein $\rho$ represents the density of the air, $v$ represents the velocity the aircraft is flying at.
 
-
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
 \section{Stall Speed Constraint}
 \begin{comment}
 \end{comment}
 Wing loading is basically the weight of the aircraft divided by the total wing area.
 $$L_{wi} = \frac{W}{S} = \frac{1}{2}\rho v_{stall}^{2} c_{L,max}$$
-Our typical would be around $c_{L,max} \approx 1.2->1.5$, 
+Our typical would be around $c_{L,max} \approx 1.2 \to 1.5$, 
 Sweep only reduces your maximum coefficient of lift. 
 
-
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
 \section{Climb Rate Constraint}
+\begin{comment}
+\end{comment}
 The cimb rate $G$ is defined as the ratio between vertical and horizontal distance travelled when the aircraft is climbing
 $D$ is going to represent drag. 
 \begin{equation}\frac{D}{W} = \frac{T}{W } - G \label{Kinematic Relation}\end{equation}
@@ -113,24 +105,34 @@ Substituting equation $\ref{Kinematic Relation}$ into equation $\ref{Drag to Wei
 $$\frac{D}{W } = \frac{T}{W } - G  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} $$
 $$\frac{T}{W }  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} + G $$
 
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
 \section{Estimation of Motor Power Rating}
+\begin{comment}
+\end{comment}
 The equation below was found in page $118$,
 $$\frac{T}{W} = \left(\frac{\eta_{p}}{V}\right)\left(\frac{P}{W}\right)$$
 wherein $\eta_{p}$ represents the propeller efficiency, 
 $P$ represents power of the engines, $W$ represents the weight of the aircraft,
 $V$ represents the true air speed of the aircraft.
 
-
-
-
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
 \section{Textual References}
+\begin{comment}
+\end{comment}
 \begin{enumerate}
 \item Page $117$ has table for thrust to weight of typical aircrafts.
 \item Page $119$ has a table for power to weight ratio of typical aircrafts.
 \item Page $124$ has a tabel for typical wing loadings.
 \item Page $126$ has description on typical $c_{L,max}$ values.
 \end{enumerate}
-
 
 \begin{comment}
 Take-off distance is shown in this equation for a propeller (Page $130$)
