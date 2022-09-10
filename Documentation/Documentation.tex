@@ -89,6 +89,13 @@ $q$ is the dynamic pressure of an aircraft flying. It is defined as
 $$q = \frac{1}{2}\rho v^{2}$$
 wherein $\rho$ represents the density of the air, $v$ represents the velocity the aircraft is flying at.
 
+
+The \texttt{Matlab} script below defines the global variables that is needed for this entire simulation,
+\lstinputlisting[language=Matlab]{../Global_Variables.m}
+$$$$
+The script below handles the global variable initializations,
+\lstinputlisting[language=Matlab]{../Initializations.m}
+
 %Seperator
 %Seperator
 %Seperator
@@ -99,8 +106,11 @@ wherein $\rho$ represents the density of the air, $v$ represents the velocity th
 \end{comment}
 Wing loading is basically the weight of the aircraft divided by the total wing area.
 $$L_{wi} = \frac{W}{S} = \frac{1}{2}\rho v_{stall}^{2} c_{L,max}$$
+%$$L_{wi} = \frac{1}/{2}*\rho*(v_{stall}^{2})* c_{Lmax}$$
+%$$L_wi = 1/2*rho*(v_stall^2)*c_Lmax$$
 Our typical would be around $c_{L,max} \approx 1.2 \to 1.5$, 
-Sweep only reduces your maximum coefficient of lift. 
+Sweep only reduces your maximum coefficient of lift. The \texttt{Matlab} implementation is shown below,
+\lstinputlisting[language=Matlab]{../Wing_Loading.m}
 
 %Seperator
 %Seperator
@@ -119,6 +129,11 @@ wherein $A_{r}$ is the aspect ratio of the wings, and $e$ represents the efficie
 Substituting equation $\ref{Kinematic Relation}$ into equation $\ref{Drag to Weight Ratio}$ and solving for $\displaystyle\frac{T}{W }$,
 $$\frac{D}{W } = \frac{T}{W } - G  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} $$
 $$\frac{T}{W }  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} + G $$
+%$$\frac{T}{W }  = \frac{(q*c_{D,0})}/{(L_{wi})} + \frac{L_{wi}}/{q*\pi*A_{r}*e} + G$$
+%$$T_W   = (q*c_D,0)/(L_wi) + L_wi/q*pi*A_r*e + G$$
+The expression for thrust to weight ratio computations are implemented below,
+\lstinputlisting[language=Matlab]{../Thrust_Weight_Ratio.m}
+
 
 %Seperator
 %Seperator
