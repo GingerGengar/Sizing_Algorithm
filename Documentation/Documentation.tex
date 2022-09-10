@@ -88,8 +88,6 @@ We need to determine $2$ very important things:
 $q$ is the dynamic pressure of an aircraft flying. It is defined as
 $$q = \frac{1}{2}\rho v^{2}$$
 wherein $\rho$ represents the density of the air, $v$ represents the velocity the aircraft is flying at.
-
-
 The \texttt{Matlab} script below defines the global variables that is needed for this entire simulation,
 \lstinputlisting[language=Matlab]{../Global_Variables.m}
 $$$$
@@ -129,10 +127,12 @@ wherein $A_{r}$ is the aspect ratio of the wings, and $e$ represents the efficie
 Substituting equation $\ref{Kinematic Relation}$ into equation $\ref{Drag to Weight Ratio}$ and solving for $\displaystyle\frac{T}{W }$,
 $$\frac{D}{W } = \frac{T}{W } - G  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} $$
 $$\frac{T}{W }  = \frac{qc_{D,0}}{L_{wi}} + L_{wi}\frac{1}{q\pi A_{r}e} + G $$
-%$$\frac{T}{W }  = \frac{(q*c_{D,0})}/{(L_{wi})} + \frac{L_{wi}}/{q*\pi*A_{r}*e} + G$$
-%$$T_W   = (q*c_D,0)/(L_wi) + L_wi/q*pi*A_r*e + G$$
+wherein $c_{D,0}$ represents the zero-lift drag coefficient of an aircraft. For a clean propeller aircraft, $c_{D,0} = 0.02$. For a dirty propeller aircraft, then $c_{D,0} = 0.03$.
+%$$\frac{T}{W }  = \frac{(q*c_{D,0})}/{(L_{wi})} + \frac{L_{wi}}/{(q*\pi*A_{r}*e)} + G$$
+%$$T_W   = (q*c_D,0)/(L_wi) + L_wi/(q*pi*A_r*e) + G$$
 The expression for thrust to weight ratio computations are implemented below,
 \lstinputlisting[language=Matlab]{../Thrust_Weight_Ratio.m}
+
 
 
 %Seperator
@@ -162,6 +162,7 @@ $V$ represents the true air speed of the aircraft.
 \item Page $119$ has a table for power to weight ratio of typical aircrafts.
 \item Page $124$ has a tabel for typical wing loadings.
 \item Page $126$ has description on typical $c_{L,max}$ values.
+\item Page $135$ has descriptions of what $c_{D,0}$ should be.
 \end{enumerate}
 
 \begin{comment}
