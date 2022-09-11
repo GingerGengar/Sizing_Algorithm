@@ -5,9 +5,9 @@ clear;
 
 % UNKNOWNS
 prec = 100;
-mf_empty = linspace(0.45,0.7,prec);
+mf_empty = linspace(0.45,0.7,prec);           % Just Structure Weight
 E_spec = linspace(80,150,prec) * 3600;        % watt hr/kg->watt sec/kg
-
+    
 m_prop = 0.35;      % kg
 m_other = 0.2;      % kg
 L_D = 5;                    % L/D ratio
@@ -64,12 +64,12 @@ figure(1)
 color = ["red","blue","green"]; 
 [X,Y] = meshgrid(mf_empty,E_spec/3600); % Meshgrid is weird, need to transpose XY when plotting
 for i = 1:1:length(m_payload_array)
-    surf(X.',Y.',takeoffWeight(:,:,i),'FaceAlpha',0.5,'EdgeColor','none','FaceColor',color(i))
+    surf(X.',Y.',emptyWeight(:,:,i)*2.20462,'FaceAlpha',0.5,'EdgeColor','none','FaceColor',color(i))
     hold on
 end
 xlabel('Empty Mass Fraction')
 ylabel('Battery Energy Density (Watt hr/kg)')
-zlabel('Takeoff Weight (kg)')
+zlabel('Empty Weight (lbs)')
 hleg = legend('0.5 lbs','1 lbs','1.5 lbs');
 htitle = get(hleg,'Title');
 set(htitle,'String','Payload Weight')
