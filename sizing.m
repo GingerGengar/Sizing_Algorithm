@@ -1,3 +1,4 @@
+%Give Definition of Global variableGlobal_Variables;
 % AAE 451 Team 7
 % Written by Cooper LeComp on 2022 09 07
 
