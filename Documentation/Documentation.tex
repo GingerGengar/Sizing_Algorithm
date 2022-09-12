@@ -149,6 +149,36 @@ wherein $\eta_{p}$ represents the propeller efficiency,
 $P$ represents power of the engines, $W$ represents the weight of the aircraft,
 $V$ represents the true air speed of the aircraft.
 
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Sizing Method}
+\begin{comment}
+\end{comment}
+\begin{enumerate}
+%This is derived from the RFP
+\item From the RFP, compute $2$ of the most arguably important parameters: Wing Loading and Thrust to Weight Ratio
+%This is for how much the powerplant system should weigh
+\item Choose a motor-propeller combination that exists within the market, and figure out:
+    \begin{enumerate}
+    \item The thrust that the setup can produce.
+    \item The power that the motor will consume.
+    \end{enumerate}
+\item Based on the Thrust to Weight Ratio and the Thrust that the motor-propeller setup produces, figure out the loaded weight of the entire aircraft.
+\item Based on the power consumption of the motor and the required endurance, as well as the specific energy of the batteries, determine the weight of the batteries.
+%This is for an estimate for how much the wing should weigh
+\item Based on the Wing Loading, and the loaded weight of the aircraft, figure out the weight of the wings.
+    \begin{enumerate}
+    \item Based on the wing loading and weight of the loaded aircraft, figure out the area of the aircraft's main wings.
+    \item Based on the area of the aircraft's main wings and the material of choice, estimate the weight of the wings.
+    \end{enumerate}
+\item We already know a few things: Weight of the propulsion system (batteries, motor, propeller), Weight of the Lift Devices (Weight of the Wing), Weight of the Payload, Weight of the Aircraft. Subtract the weight of all the known components from the total weight of the aircraft. This is essentially the weight for the fuselage and tail and excess margin mass. We seek to figure out a reasonable number for this fuselage weight.
+\item If the fuselage and excess weight quota is too low, choose a propeller motor combination that gives a larger thrust. Re-iterate all the steps above using the \texttt{Matlab} script.
+\end{enumerate}
+
 %Seperator
 %Seperator
 %Seperator
