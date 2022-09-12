@@ -4,6 +4,7 @@ Global_Variables;
 %%Variables which are known/guessed (independent)
 
 %Variables Needed to Compute the Wing Loading and Thrust to Weight Ratio
+g = 9.81; %This is the local gravitational accel (m/s^2)
 rho = 1.225; %This is the density of the air
 v_stall = 8; %This is the estimation for stall speed
 c_Lmax = 1.2; %the maximum lift coefficient we can get
@@ -13,7 +14,7 @@ A_r = 9; %Aspect ratio of the main wing, typical values
 e = 0.8; %efficiency of the wing due to deviating from elliptic lift distribution
 
 %Variables that are needed to compute the weight of the aircraft
-
+Engine_Thrust = ; %This is force produced by engine, units are in Newtons (N)
 
 %Variables that are needed to compute the weight of the powerplant system
 endurance = 900; %seconds of flight. This corresponds to 15 minutes of flight

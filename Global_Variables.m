@@ -1,4 +1,5 @@
 %%Global variable list
+global g; %This is local gravitational acceleration constant (m/s^2)
 global L_wi; %This is a wing loading (N/m^2)
 global T_W; %This is the thrust to weight ratio (dimensionless)
 global rho; %This is the air density (kg/m^3)
@@ -13,4 +14,5 @@ global endurance; %This is how long the aircraft should be flying in terms of se
 global Motor_Power; %This is how much power the motor consumes (J/s)
 global Batt_Specific_Energy; %This has units of (J/kg)
 global Batt_Mass; %This has units of kg, this is the mass of the battery
+global Engine_Thrust; %This is the engine thrust of our aircraft (Newtons)
 
