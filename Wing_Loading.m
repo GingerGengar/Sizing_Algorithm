@@ -1,4 +1,4 @@
-%Give Definition of Global variable
+%%Give Definition of Global variable
 Global_Variables;
 
 %This Matlab script is used to compute the wing loading using the stall speed of the aircraft.

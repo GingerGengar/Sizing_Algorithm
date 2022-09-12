@@ -16,10 +16,11 @@ e = 0.8; %efficiency of the wing due to deviating from elliptic lift distributio
 %Variables that are needed to compute the weight of the aircraft
 Engine_Thrust = ; %This is force produced by engine, units are in Newtons (N)
 
-%Variables that are needed to compute the weight of the powerplant system
+%Variables that are needed to compute the mass of the batteries
 endurance = 900; %seconds of flight. This corresponds to 15 minutes of flight
 Motor_Power = ; %This is the power of the motor (W)
 Batt_Specific_Energy = ; %This is Energy/Mass, so its unit has to be (J/kg)
+
 
 %%Variables that are dependent on other variables (dependent)
 q = 1/2*rho*v_stall^2; %This is the dynamic pressure

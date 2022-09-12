@@ -1,4 +1,4 @@
-%Give Definition of Global variable
+%%Give Definition of Global variable
 Global_Variables;
 
 %This computes the thrust to weight ratio based on the climb rate

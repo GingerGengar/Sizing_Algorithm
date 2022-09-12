@@ -1,4 +1,4 @@
-%Give Definition of Global variable
+%%Give Definition of Global variable
 Global_Variables;
 
 fprintf("Wing Loading for Aircraft: %f\n", L_wi);
