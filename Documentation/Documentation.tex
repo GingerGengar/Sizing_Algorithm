@@ -39,19 +39,26 @@ We need to determine $2$ very important things:
 \begin{enumerate}
 \item The thrust to weight ratio affects:
 \begin{itemize}
-\item acceleration:
-\item climb rate:
-\item maximum speed:
-\item turn rate:
-\item Aircraft Endurance:
+\item acceleration: A larger thrust to weight ratio will affect this positively. Based on Newton's $2^{nd}$ law, if we have a larger force due to a larger thrust, the object (aircraft) should accelerate more.
+\item climb rate: A larger thrust to weight ratio affects this positively. If we have a larger thrust to weight ratio, then the aircraft can put out more potential energy into its height at a faster rate.
+\item maximum speed: Larger thrust to weight ratio gives a larger maximum speed. The more thrust an aircraft can produce, the more drag it can overcome.
+\item turn rate: If the aircraft has a larger thrust to weight ratio, it can sustain higher speeds and thus have incredible turn rates.
+\item Aircraft Endurance: Thrust to weight ratio will affect this parameter negatively. If an aircraft produces alot of power for its own weight, it will consume its fuel and cannot stay flying for too long.
 \end{itemize}
 \item The stall speed is directly determined by the wing loading and the maximum lift coefficient. Wing Loading will affect:
 \begin{itemize}
-\item stall speed
-\item induced drag
-\item take-off distance
+\item stall speed: If the wing is smaller for the aircraft's weight, stall speed has to increase because the aircraft has to maintain the same amount of lift to remain flying.
+\item induced drag: If the wing is smaller, then at lower speeds the lift coefficient would be much higher. Since drag is proportional to lift coefficient squared, this would mean a smaller wing would produce a much larger induced drag at lower speeds.
+\item take-off distance: A smaller wing is less capable of producing lift at low speeds. Therefore, the aircraft needs more speed, increasing take-off distance.
 \end{itemize}
 \end{enumerate}
+These $2$ parameters, the wing loading and the thrust to weight ratio determines much of the aircraft's flight characteristic which is why it is incredibly important to base the sizing of the aircraft to these $2$ parameters. These $2$ parameters can be deduced or approximated based on the requirements of the RFP which is the first step in our sizing algorithm.
+%Seperator
+\\~\\Alright, supposing we could determine the wing loading and the thrust to weight ratio given the requirements what next? We have to center our sizing based on discrete-sized components that are available in the market. Motor-propeller combinations would be a good example in this case. Suppose we were to use a sizing method that is based on the target payload, and we get a required motor power rating that is $x$ watts in power. What happens if the market will only sell $0.3x$ watt rating or $2.3x$ watt power rating with nothing in between? Then all of the decisions that we have made thus far is very unoptimised because we would be forced to use more underpowered motors or an overpowered motor. We could attempt to use multiple engines instead of one, but that deviates from the original plan. 
+%Seperator
+\\~\\Therefore, a more intelligent way is to base the sizing on discrete parts we are dependent on outsourced manufacturers and then attempt to control all the other components that we can truly control in a continuous way. For example, fuselages, wings, structure all can be controlled. Yes we can attempt to make an aircraft that is $720$ grams or an aircraft that is instead $630$ grams. Those variables are in our control in a continuous non-discrete way. So if our algorithm eventually tells us to make a wing of $0.89\,m^{2}$ we can indeed make a wing close to that value. 
+%Seperator
+\\~\\That is the core principle of the sizing algorithm implemented within this team. The sizing algorithm relies on discrete parts, which in our case would be primarily the motor-propeller combination.
 
 %Seperator
 %Seperator
@@ -60,21 +67,35 @@ We need to determine $2$ very important things:
 %Seperator
 \section{Sizing Methodology}
 \begin{comment}
-\end{comment}
-\begin{enumerate}
-\item First Method:
-    \begin{enumerate}
-    \item Firstly use the stall speed to determine wing loading
-        Stall speed should be independent of engine size
-    \item After figuring out wing loading, determine the thrust to weight ratio based on 
-        takeoff distance
-        Rate of climb
-    \end{enumerate}
 \item Second Alternative Method:
     \begin{enumerate}
     \item Determine the Thrust to Weight Ratio
     \item Determine the wing loading by direct computation 
     \end{enumerate}
+\end{comment}
+\begin{enumerate}
+%This is derived from the RFP
+\item From the RFP, compute $2$ of the most arguably important parameters: Wing Loading and Thrust to Weight Ratio.
+    \begin{enumerate}
+    \item Firstly use the stall speed to determine wing loading. The stall speed should be independent of engine size.
+    \item After figuring out wing loading, determine the thrust to weight ratio based on the specified climb rate.
+    \end{enumerate}
+%This is for how much the powerplant system should weigh
+\item Choose a motor-propeller combination that exists within the market, and figure out:
+    \begin{enumerate}
+    \item The thrust that the setup can produce.
+    \item The power that the motor will consume at cruise.
+    \end{enumerate}
+\item Based on the Thrust to Weight Ratio and the Thrust that the motor-propeller setup produces, figure out the loaded weight of the entire aircraft.
+\item Based on the power consumption of the motor and the required endurance, as well as the specific energy of the batteries, determine the weight of the batteries.
+%This is for an estimate for how much the wing should weigh
+\item Based on the Wing Loading, and the loaded weight of the aircraft, figure out the weight of the wings.
+    \begin{enumerate}
+    \item Based on the wing loading and weight of the loaded aircraft, figure out the area of the aircraft's main wings.
+    \item Based on the area of the aircraft's main wings and the material of choice, estimate the weight of the wings.
+    \end{enumerate}
+\item We already know a few things: Weight of the propulsion system (batteries, motor, propeller), Weight of the Lift Devices (Weight of the Wing), Weight of the Payload, Weight of the Aircraft. Subtract the weight of all the known components from the total weight of the aircraft. This is essentially the weight for the fuselage and tail and excess margin mass. We seek to figure out a reasonable number for this fuselage weight.
+\item If the fuselage and excess weight quota is too low, choose a propeller motor combination that gives a larger thrust. If the weight quota is too high, or the wing area is just too large and won't fit in the box, then choose a propeller motor combination that gives a lower thrust value. Re-iterate all the steps by just changing the motor-propeller values using the \texttt{Matlab} script.
 \end{enumerate}
 
 %Seperator
@@ -82,17 +103,33 @@ We need to determine $2$ very important things:
 %Seperator
 %Seperator
 %Seperator
-\section{Common Definitions}
+\section{Common Basic Definitions}
 \begin{comment}
 \end{comment}
 $q$ is the dynamic pressure of an aircraft flying. It is defined as
 $$q = \frac{1}{2}\rho v^{2}$$
 wherein $\rho$ represents the density of the air, $v$ represents the velocity the aircraft is flying at.
-The \texttt{Matlab} script below defines the global variables that is needed for this entire simulation,
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Algorithm Structure}
+\begin{comment}
+\end{comment}
+The chosen programming language is \texttt{Matlab} due to the team's most familiarity with it. We are implementing a programming style that is somewhat similar to object-oriented programming wherein we have a namespace and we have functions which operate on all of the variables within that name space. Although in our case, our namespace is the \texttt{global} namespace.
+%Seperator
+\\~\\The reason we do it this way is so that we are not going to spend more time debugging making sure that we pass all the correct named variables to smaller functions. Instead we have one and only one name for a physical variable and all scripts can read off those variables. This allows for rapid development of the algorithm.
+%Seperator
+\\~\\The \texttt{Matlab} script below defines the global variables that is needed for this entire simulation. This script is called by all of the other scripts to make sure that all of the variables listed here is indeed visible to all the other scripts. This script primarily just serves a house-keeping script to keep the other scripts running smoothly.
 \lstinputlisting[language=Matlab]{../Global_Variables.m}
 $$$$
-The script below handles the global variable initializations,
+The script below handles the global variable initializations. This is an important script. This is where we input all of our data, such as the RFP requirements, the market for the propellers, our estimated parameters such as cruise lift coefficients and stall drag coefficients. This script is what the user should modify if they choose to consider a different design with different motor-propeller combinations or a different wing material and so forth.
 \lstinputlisting[language=Matlab]{../Initializations.m}
+$$$$
+Of course, with every single \texttt{Matlab} project, there has to be a \texttt{Main} function which calls on all of the other scripts. This is our \texttt{Main} function. Its sole task is to set-up the variables correctly, call all of the other scripts which process the data and call the scripts that give us the useful informations we care about.
+\lstinputlisting[language=Matlab]{../Main.m}
 
 %Seperator
 %Seperator
@@ -143,41 +180,12 @@ The expression for thrust to weight ratio computations are implemented below,
 \section{Estimation of Motor Power Rating}
 \begin{comment}
 \end{comment}
+Currently, this is not too important although it may change in the future. We have not had the time to implement this feature into the code-base.
 The equation below was found in page $118$,
 $$\frac{T}{W} = \left(\frac{\eta_{p}}{V}\right)\left(\frac{P}{W}\right)$$
 wherein $\eta_{p}$ represents the propeller efficiency, 
 $P$ represents power of the engines, $W$ represents the weight of the aircraft,
 $V$ represents the true air speed of the aircraft.
-
-
-%Seperator
-%Seperator
-%Seperator
-%Seperator
-%Seperator
-\section{Sizing Method}
-\begin{comment}
-\end{comment}
-\begin{enumerate}
-%This is derived from the RFP
-\item From the RFP, compute $2$ of the most arguably important parameters: Wing Loading and Thrust to Weight Ratio
-%This is for how much the powerplant system should weigh
-\item Choose a motor-propeller combination that exists within the market, and figure out:
-    \begin{enumerate}
-    \item The thrust that the setup can produce.
-    \item The power that the motor will consume.
-    \end{enumerate}
-\item Based on the Thrust to Weight Ratio and the Thrust that the motor-propeller setup produces, figure out the loaded weight of the entire aircraft.
-\item Based on the power consumption of the motor and the required endurance, as well as the specific energy of the batteries, determine the weight of the batteries.
-%This is for an estimate for how much the wing should weigh
-\item Based on the Wing Loading, and the loaded weight of the aircraft, figure out the weight of the wings.
-    \begin{enumerate}
-    \item Based on the wing loading and weight of the loaded aircraft, figure out the area of the aircraft's main wings.
-    \item Based on the area of the aircraft's main wings and the material of choice, estimate the weight of the wings.
-    \end{enumerate}
-\item We already know a few things: Weight of the propulsion system (batteries, motor, propeller), Weight of the Lift Devices (Weight of the Wing), Weight of the Payload, Weight of the Aircraft. Subtract the weight of all the known components from the total weight of the aircraft. This is essentially the weight for the fuselage and tail and excess margin mass. We seek to figure out a reasonable number for this fuselage weight.
-\item If the fuselage and excess weight quota is too low, choose a propeller motor combination that gives a larger thrust. Re-iterate all the steps above using the \texttt{Matlab} script.
-\end{enumerate}
 
 %Seperator
 %Seperator
