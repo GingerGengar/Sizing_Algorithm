@@ -103,18 +103,6 @@ These $2$ parameters, the wing loading and the thrust to weight ratio determines
 %Seperator
 %Seperator
 %Seperator
-\section{Common Basic Definitions}
-\begin{comment}
-\end{comment}
-$q$ is the dynamic pressure of an aircraft flying. It is defined as
-$$q = \frac{1}{2}\rho v^{2}$$
-wherein $\rho$ represents the density of the air, $v$ represents the velocity the aircraft is flying at.
-
-%Seperator
-%Seperator
-%Seperator
-%Seperator
-%Seperator
 \section{Algorithm Structure}
 \begin{comment}
 \end{comment}
@@ -130,6 +118,8 @@ The script below handles the global variable initializations. This is an importa
 $$$$
 Of course, with every single \texttt{Matlab} project, there has to be a \texttt{Main} function which calls on all of the other scripts. This is our \texttt{Main} function. Its sole task is to set-up the variables correctly, call all of the other scripts which process the data and call the scripts that give us the useful informations we care about.
 \lstinputlisting[language=Matlab]{../Main.m}
+$$$$
+The rest of this document documentation will proceed in the same order the scripts within \texttt{Main.m} are called.
 
 %Seperator
 %Seperator
@@ -140,7 +130,7 @@ Of course, with every single \texttt{Matlab} project, there has to be a \texttt{
 \begin{comment}
 \end{comment}
 Wing loading is basically the weight of the aircraft divided by the total wing area.
-$$L_{wi} = \frac{W}{S} = \frac{1}{2}\rho v_{stall}^{2} c_{L,max}$$
+\begin{equation}L_{wi} = \frac{W}{S} = \frac{1}{2}\rho v_{stall}^{2} c_{L,max} \label{Wing Loading Definition}\end{equation}
 %$$L_{wi} = \frac{1}/{2}*\rho*(v_{stall}^{2})* c_{Lmax}$$
 %$$L_wi = 1/2*rho*(v_stall^2)*c_Lmax$$
 Our typical would be around $c_{L,max} \approx 1.2 \to 1.5$, 
@@ -170,7 +160,100 @@ wherein $c_{D,0}$ represents the zero-lift drag coefficient of an aircraft. For 
 The expression for thrust to weight ratio computations are implemented below,
 \lstinputlisting[language=Matlab]{../Thrust_Weight_Ratio.m}
 
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Computing Aircraft Total Mass}
+\begin{comment}
+\end{comment}
+Supposing we know thrust to weight,
+$$T_{w} = \frac{T}{W}$$
+and we know the thrust $T$, it is a simple operation to get the total weight of the aircraft (including the payload)
+$$W = T\times \frac{W}{T} = T\times \frac{1}{T_{w}} = \frac{T}{T_{w}}$$
+That is what is being implemented in the \texttt{Matlab} script below. Here \texttt{T\_W} is a variable that corresponds to thrust to weight ratio. \texttt{Engine\_Thrust} literally means how much thrust the engine makes, since we only have $1$ engine, this will be the thrust for the entire aircraft.
+\lstinputlisting[language=Matlab]{../Aircraft_Total_Mass.m}
 
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Computing Aircraft Batteries}
+\begin{comment}
+\end{comment}
+This is where the sizing algorithm approximates the truth but could be developed further. We hope to know the thrust needed for the aircraft at cruise conditions or could estimate it well. We also know that we want the aircraft to have some level of endurance in the air based on the RFP. The first step is determining how much total energy the batteries in the aircraft needs to store. To do that,
+$$E_{batt} = P_{motor}T_{e}$$
+wherein $E_{batt}$ represents the amount of energy the battery has to store, and $P_{motor}$ is the power of the motor during cruise and $T_{e}$ is the endurance time of the aircraft. After figuring out how much energy the battery has to hold in total, we can determine the battery weight if we also know the specific battery energy. The batteries we chose are li-po batteries and the average of the lower bound and upper-bound of the value in Wikipedia was used as an estimate for the specific battery energy of our li-po batteries.
+$$M_{batt} = E_{batt} \times \frac{M_{batt}}{E_{batt}} = E_{batt} \times \frac{1}{\rho_{batt,E}} = \frac{E_{batt}}{\rho_{batt,E}}$$
+wherein $M_{batt}$ represens the mass of the batteries, $\rho_{batt,E}$ represents the specific battery energy density. This is what the \texttt{Matlab} script used to estimate the battery size is doing,
+\lstinputlisting[language=Matlab]{../Get_Batt_Mass.m}
+The variable names are extremely self-explanatory.
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Computing Aircraft Main Wing}
+\begin{comment}
+\end{comment}
+Before we attempt to compute weight or mass of the aircraft's main wing, we have to compute the area of the aircraft's main wing. This is possible because we know the total loaded weight of the aircrft, and we also know the prescribed wing loading for the aircraft. Reiterating the definition for wing loading (equation $\ref{Wing Loading Definition}$),
+$$L_{wi} = \frac{W}{S} = \frac{1}{2}\rho v_{stall}^{2} c_{L,max}$$
+Here $L_{wi}$ represents the wing loading, $W$ represents the total loaded weight of the aircraft and $S$ represents the surface area of the lifting surfaces. By extremely simple algebraic manipulation,
+$$S = \frac{W}{L_{wi}}$$
+Therefore, if we know the aircraft weight $W$ and also the prescribed wing loading $L_{wi}$ then we can compute the surface area of the main wing. The \texttt{Matlab} implementation for the main wing's surface area is shown below,
+\lstinputlisting[language=Matlab]{../Aircraft_Wing_Area.m}
+After computing the surface area of the main wing, we also assume that the wing is a particular thickness, this should be studied carefully to fit to structural integrity, but for now we believe this thickness is reasonable for a wing. From this thickness, we can compute the approximate wing volume and since we have decided to use a foam composite wing, we can multiply density of foam and resin to the volume of the wing to estimate the weight of the main wing.
+$$M_{m,wing} = V_{m,wing}\times\rho_{m,wing}$$
+wherein $M_{m,wing}$ represents the mass of the main wing, $V_{m,wing}$ represents the volume of the main wing, $\rho_{m,wing}$ represents the approximate density of the main wing. This is kind of hand-wavy and can be further studied to improve the accuracy. The \texttt{Matlab} implementation of this,
+\lstinputlisting[language=Matlab]{../Main_Wing_Mass.m}
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Computing Spare Weight Available}
+\begin{comment}
+\end{comment}
+Computing the spare weight is basically just taking the aircraft's total loaded weight and subtracting all of the components we already know. The remaining mass should be whatever is left for the fuselage, tail and whatnot. So we use this algorithm as a sanity check. If we are investing this much weight for the main wings, can we make a corresponding fuselage with this much remaining weight? And so on. The \texttt{Matlab} script which computes the spare weight is shown below,
+\lstinputlisting[language=Matlab]{../Spare_Weight_Available.m}
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Post-Processing}
+\begin{comment}
+\end{comment}
+This \texttt{Matlab} script handles the text output of the variables we are interested in.
+\lstinputlisting[language=Matlab]{../Post_Processing.m}
+
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Algorithm Outputs}
+\begin{comment}
+\end{comment}
+Below shows the current output of the entire sizing algorithm,
+\lstinputlisting{../Output/Text.txt}
+
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\section{Further Developments}
+\begin{comment}
+\end{comment}
+Definitely many parts of the algorithm can be improved to increase the accuracy. The most important thing though, is to size the horizontal stabilizers next. We also need to figure out pretty soon which airfoil we would like to use because much of the design is very much dependent on the main wing's airfoils, including stability. If the main airfoil has an adverse pitching moment, we have to think about how large the tail has to be and what effect this will have on the overall wing-loading of the aircraft. Also power motor ratings should be thought more clearly.
 
 %Seperator
 %Seperator
@@ -187,12 +270,32 @@ wherein $\eta_{p}$ represents the propeller efficiency,
 $P$ represents power of the engines, $W$ represents the weight of the aircraft,
 $V$ represents the true air speed of the aircraft.
 
+
 %Seperator
 %Seperator
 %Seperator
 %Seperator
 %Seperator
-\section{Textual References}
+\section{Appendix}
+\begin{comment}
+\end{comment}
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\subsection{Common Theoretical Definitions}
+\begin{comment}
+\end{comment}
+$q$ is the dynamic pressure of an aircraft flying. It is defined as
+$$q = \frac{1}{2}\rho v^{2}$$
+wherein $\rho$ represents the density of the air, $v$ represents the velocity the aircraft is flying at.
+
+%Seperator
+%Seperator
+%Seperator
+%Seperator
+\subsection{Textual References}
 \begin{comment}
 \end{comment}
 \begin{enumerate}
