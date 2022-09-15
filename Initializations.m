@@ -10,7 +10,7 @@ v_stall = 8; %This is the estimation for stall speed
 c_Lmax = 1.2; %the maximum lift coefficient we can get
 climb_angle = 25; %This is from the RFP
 c_D0 = 0.03; %This is the drag coefficient near stall speed
-A_r = 9; %Aspect ratio of the main wing, typical values
+A_r = 7; %Aspect ratio of the main wing, typical values
 e = 0.8; %efficiency of the wing due to deviating from elliptic lift distribution
 
 %Variables that are needed to compute the total weight of the aircraft
@@ -36,7 +36,7 @@ mass_pixhawk = 0.037;  % Units in kg
 mass_servos = 0.03 * 5; % Units in kg
 
 %Mass of the Payload
-payload_mass = 1*0.45;
+payload_mass = 1.5*0.45;
 
 %%Variables that are dependent on other variables (dependent)
 q = 1/2*rho*v_stall^2; %This is the dynamic pressure
