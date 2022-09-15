@@ -1,7 +1,7 @@
 %%Give Definition of Global variable
 Global_Variables;
 
-fprintf("##################################################################\n");
+fprintf("\n\n##################################################################\n");
 fprintf("Payload Mass: (%f lb)\n", payload_mass/.45);
 fprintf("##################################################################\n");
 fprintf("Wing Loading for Aircraft: %f (N/m^2)\n", L_wi);
