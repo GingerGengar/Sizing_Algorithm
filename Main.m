@@ -2,7 +2,7 @@
 Global_Variables;
 
 %%Basic Housekeeping Before Running Simulation
-clear; clc;
+clear;
 
 %%Load All of the Inputs for this simulation
 Initializations; %Initialize the global variables
