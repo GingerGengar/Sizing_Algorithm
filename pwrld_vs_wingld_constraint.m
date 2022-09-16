@@ -3,9 +3,9 @@
 
 figure(1);
 
-MIN_X = 5;
-MAX_X = 15;
-MAX_Y = 20;
+MIN_X = 0;
+MAX_X = .5;
+MAX_Y = 10;
 
 
 v_stall = 4; % m/s (<15ft/s)
@@ -20,12 +20,14 @@ cd0 = [0.015, 0.02, 0.025, 0.03, 0.035];
 gamma = deg2rad(27.5);
 l_d_max = [4, 6, 8, 10, 12];
 
+g = 32.17405;
+
 x_cd = MIN_X:0.1:MAX_X;
-y_cd_a = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(1)));
-y_cd_b = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(2)));
-y_cd_c = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(3)));
-y_cd_d = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(4)));
-y_cd_e = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(5)));
+y_cd_a = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(1))) * g;
+y_cd_b = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(2))) * g;
+y_cd_c = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(3))) * g;
+y_cd_d = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(4))) * g;
+y_cd_e = x_cd .* ((max_power * np) / (.5 * p * 1.1 * v_cruise^3 * cd0(5))) * g;
 
 y_ld_a = x_cd .* 0 + ((max_power * np) / (v_cruise * (1 / (0.866 * l_d_max(1)) + sin(gamma))));
 y_ld_b = x_cd .* 0 + ((max_power * np) / (v_cruise * (1 / (0.866 * l_d_max(2)) + sin(gamma))));
@@ -34,11 +36,11 @@ y_ld_d = x_cd .* 0 + ((max_power * np) / (v_cruise * (1 / (0.866 * l_d_max(4)) +
 y_ld_e = x_cd .* 0 + ((max_power * np) / (v_cruise * (1 / (0.866 * l_d_max(5)) + sin(gamma))));
 
 y_cl = 0:0.1:MAX_Y;
-x_cl_a = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(1));
-x_cl_b = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(2));
-x_cl_c = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(3));
-x_cl_d = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(4));
-x_cl_e = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(5));
+x_cl_a = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(1)) / g;
+x_cl_b = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(2)) / g;
+x_cl_c = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(3)) / g;
+x_cl_d = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(4)) / g;
+x_cl_e = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(5)) / g;
 
 plot( ...
     x_cl_a, y_cl,'-.', ...
