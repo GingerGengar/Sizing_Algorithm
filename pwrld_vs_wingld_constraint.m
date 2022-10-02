@@ -7,14 +7,13 @@ MIN_X = 0;
 MAX_X = .5;
 MAX_Y = 10;
 
-
 v_stall = 4; % m/s (<15ft/s)
 p = 1.225; % kg/m^3
 cl_max = [0.9, 1, 1.1, 1.2, 1.3]; % CL max value estimate
 
 v_cruise = 15; % m/s
 max_power = 100; % W
-np = 0.75; % % power
+np = 0.75; % power
 cd0 = [0.015, 0.02, 0.025, 0.03, 0.035];
 
 gamma = deg2rad(27.5);
@@ -58,6 +57,16 @@ plot( ...
     x_cd, y_ld_c, '-', ...
     x_cd, y_ld_d, '-', ...
     x_cd, y_ld_e, '-');
+
+    hold on
+    weight = 8.031; % lbf
+    wing_area = 8.33333; %ft^2
+    motor_power = 1.07; %hp
+    wing_load = weight/wing_area;
+    power_load = weight/motor_power;
+    plot(wing_load,power_load,'kx')
+    hold on
+    text(wing_load+0.1,power_load,'Current Design')
 
 xlabel('Wing Loading W/S (lbf/ft^2)');
 ylabel('Power Loading W/P (lbf/hp');
