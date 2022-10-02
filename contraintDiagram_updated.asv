@@ -19,11 +19,10 @@ cd0 = [0.015, 0.02, 0.025, 0.03, 0.035];
 gamma = deg2rad(25);
 l_d_max = [4, 6, 8, 10, 12];
 
-bankAng = 76; % deg, from 4G turn graph 
+bankAng = 76; 
 
-x_cd = MIN_X:0.1:MAX_X; % Wing Loading
-y_cl = 0:0.1:MAX_Y; % Power Loading
-
+x_cd = MIN_X:0.1:MAX_X;
+y_cl = 0:0.1:MAX_Y;
 y_cd = zeros(5,length(x_cd));
 y_ld = zeros(5,length(x_cd));
 x_cl = zeros(5,length(y_cl));
@@ -43,7 +42,6 @@ for i = 1:5
     x_cl(i,:) = x_cl(i,:)*0.224809/(3.28084^2); % lbf/ft^2
 
     % 3G Turn
-    /%(p*)
 end
 
 

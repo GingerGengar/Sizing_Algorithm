@@ -6,7 +6,7 @@ Global_Variables;
 %Variables Needed to Compute the Wing Loading and Thrust to Weight Ratio
 g = 9.81; %This is the local gravitational accel (m/s^2)
 rho = 1.225; %This is the density of the air
-v_stall = 8; %This is the estimation for stall speed
+v_stall = 4; %This is the estimation for stall speed
 c_Lmax = 1.2; %the maximum lift coefficient we can get
 climb_angle = 25; %This is from the RFP
 c_D0 = 0.03; %This is the drag coefficient near stall speed
@@ -40,6 +40,7 @@ payload_mass = 1.5*0.45;
 
 %%Variables that are dependent on other variables (dependent)
 q = 1/2*rho*v_stall^2; %This is the dynamic pressure
-G = tand(climb_angle); %Gradient of ascent = rise of flight/run of flight
+%G = tand(climb_angle); %Gradient of ascent = rise of flight/run of flight
+G = sind(climb_angle);
 mass_avionics = mass_pixhawk + mass_servos; % Units in kg
 
