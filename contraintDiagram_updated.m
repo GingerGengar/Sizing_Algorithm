@@ -2,46 +2,51 @@
 % Written by Cooper LeComp and John Papas Dennerline on 2022 09 09
 
 %% Deliverables/Constants
-v_stall = 4; % m/s (<15ft/s)
-v_cruise = 15; % m/s
+v_stall = 4.5; % m/s (<15ft/s)
+v_stall2 = 8; 
+v_cruise = 11; % m/s
 p = 1.225; % kg/m^3
 np = 0.75; % power eff
 gamma = deg2rad(25); % Climb Angle
 
 %% Our design 
-cd0 = [0.015, 0.02, 0.025, 0.03, 0.035];
-cl_max = [0.9, 1, 1.1, 1.2, 1.3]; % CL max value estimate
-l_d_max = [4, 6, 8, 10, 12];
+cd0 = 0.035* ones(5,1); %[0.015, 0.02, 0.025, 0.03, 0.035]; %[0.015, 0.02, 0.025, 0.03, 0.035];
+cl_max = [1.5, 1.5, 1.5, 1.5, 1.5]; % CL max value estimate
+l_d_max = [10, 10, 10, 10, 10];
 
 n = 3;
-e = 0.7; %span efficiency
-AR = 7.142857142857142; %aspect ratio
+e = 0.8; % span efficiency
 
 max_power = 786.9837; % watts
 weight = 8.031; % lbf
-wing_area = 8.33333; %ft^2
-motor_power = max_power*0.00134102; %hp
+span = 8; % ft
+chord = 1; % ft
+wing_area = span*chord; % ft^2
+AR = span/chord;
+motor_power = max_power*0.00134102; % hp
 
 wing_load = weight/wing_area;
 power_load = weight/motor_power;
 
 %% Plotting
 MIN_X = 0;
-MAX_X = 0.5;
-MAX_Y = 20;
+MAX_X = 2;
+MAX_Y = 100;
 
-x_cd = MIN_X:0.1:MAX_X; % Wing Loading
+x_cd = linspace(MIN_X,MAX_X,1000); % Wing Loading
 y_cl = 0:0.1:MAX_Y; % Power Loading
 
+testcase = length(cd0); % number of test cases
 y_cd = zeros(5,length(x_cd));
-y_ld = zeros(5,length(x_cd));
-x_cl = zeros(5,length(y_cl));
-y_3g = zeros(5,length(x_cd));
-for i = 1:5
+y_ld = zeros(testcase,length(x_cd));
+x_cl = zeros(testcase,length(y_cl));
+x_cl2 = zeros(testcase,length(y_cl));
+y_3g = zeros(testcase,length(x_cd));
+for i = 1:testcase
     % Cruise Speed
     power_inv = 1/(.5 * p * 1.1 * (v_cruise)^3 * cd0(i)) ; % m^2/watt
     power_inv = power_inv*(1/0.00134102)*(3.28084^2); % ft^2/hp
-    y_cd(i,:) = x_cd.*power_inv; % lbs/hp (x_cd is in units of lbf/ft^2)
+    y_cd(i,:) = x_cd.*power_inv; % lbf/hp (x_cd is in units of lbf/ft^2)
 
     % Climb Angle
     y_ld(i,:) = x_cd .* 0 + (np / (v_cruise * (1 / (0.866 * l_d_max(i)) + sin(gamma)))); % s/m
@@ -52,12 +57,15 @@ for i = 1:5
     x_cl(i,:) = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(i)); % N/m^2
     x_cl(i,:) = x_cl(i,:)*0.224809/(3.28084^2); % lbf/ft^2
 
+    x_cl2(i,:) = y_cl .* 0 + (.5 * p * v_stall2^2 * cl_max(i)); % N/m^2
+    x_cl2(i,:) = x_cl2(i,:)*0.224809/(3.28084^2); % lbf/ft^2
+
     % 3G Turn
     V_turn = v_stall*sqrt(n);
-    q = 0.5*p*V_turn^2;
-    wing_loading_SI = x_cd*47.880172;
+    q = 0.5*p*V_turn^2; % N/m^2
+    wing_loading_SI = x_cd*47.880172; % N/m^2
 
-    thrust2weight = q*(cd0(i)./(wing_loading_SI)+n^2/(q*pi*e*AR)*wing_loading_SI); % watts/N
+    thrust2weight = q*(cd0(i)./(wing_loading_SI))+n^2/(q*pi*e*AR)*wing_loading_SI; % N/N
     thrust2weight = thrust2weight*V_turn/np; % watts/N
     thrust2weight = thrust2weight*0.00134102/0.224809; % hp/W
     y_3g(i,:) = 1./thrust2weight;
@@ -65,9 +73,11 @@ end
 
 %% PLotting
 figure(1)
-for i = 1:5
-    plot(x_cl(i,:), y_cl,'r');
+for i = 1:testcase
+    plot(x_cl(i,:), y_cl,'--r');
     hold on
+    hold on
+    plot(x_cl2(1,:), y_cl,'r');
     plot(x_cd, y_cd(i,:),'b');
     hold on
     plot(x_cd, y_ld(i,:),'g');
@@ -77,14 +87,21 @@ for i = 1:5
 end
 plot(wing_load,power_load,'kx')
 hold on
-text(wing_load+0.01,power_load,'Current Design')
+text(wing_load+0.03,power_load,'Current Design')
+hold on
+h = text(x_cl(1,1)-0.03, 30,'Predicted');
+set(h,'Rotation',90);
+hold on
+s = text(x_cl2(1,1)-0.03, 30,'Historical');
+set(s,'Rotation',90);
 
 xlabel('Wing Loading W/S (lbf/ft^2)');
 ylabel('Power Loading W/P (lbf/hp)');
 title('AAE 451 Team 7 Constraint Diagram');
 grid on;
-axis([MIN_X MAX_X 0 MAX_Y]);
-
-hleg = legend('Stall Speed','Cruise Speeed','Climb Angle','3G Turn');
+%axis([MIN_X MAX_X 0 MAX_Y]);
+xlim([0,1.5])
+ylim([-inf, 75])
+hleg = legend('','Stall Speed','Cruise Speed','Climb Angle','3G Turn');
 htitle = get(hleg,'Title');
 set(htitle,'String','Constraints')

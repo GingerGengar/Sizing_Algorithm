@@ -10,4 +10,5 @@ batterySpecificCapacity = 11.62790; %(Ah/kg)
 
 %MotorAndPropAmpDraw/hoursNeeded
 
+
 end
