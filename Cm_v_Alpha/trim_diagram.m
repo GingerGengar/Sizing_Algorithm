@@ -17,14 +17,15 @@ for i = 1:6
         plot(aoa,cm)
         hold on
         [trim_aoa,ind]=min(abs(cm));
-        plot(aoa(ind),cm(ind),'r*')    
+        plot(aoa(ind),cm(ind),'r*') 
+        text(aoa(ind)+0.25,cm(ind)+0.02,"\alpha_{trim} = "+num2str(aoa(ind))+"^{\circ}")
     else
         plot(aoa,cm,'--')
     end
     hold on
     
     % Plot the Text
-    mover = 8;
+    mover = 8.5;
     [~,ind]=min(abs(aoa-mover));
     text(aoa(ind),cm(ind)+0.01,trim_list(i))
 end
@@ -32,10 +33,10 @@ yline(0,'k')
 hold on
 xline(0,'k')
 grid on
-xlim([-5,10])
+xlim([-2,10])
 xlabel('\alpha (deg)')
 ylabel('C_m')
-title('C_m vs \alpha')
+title('C_m vs \alpha @ Cruise (12 m/s)')
 
 % hleg = legend(trim_list);
 % htitle = get(hleg,'Title');
