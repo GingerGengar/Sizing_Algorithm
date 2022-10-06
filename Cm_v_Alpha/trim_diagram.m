@@ -7,7 +7,7 @@ trim_data{4} = readmatrix('trim1_5.csv');
 trim_data{5} = readmatrix('trim2_5.csv');
 trim_data{6} = readmatrix('trim3.csv');
 trim_list = ["-3^{\circ}","-1.5^{\circ}","0^{\circ}","+1.5^{\circ}","+2.5^{\circ}","+3^{\circ}"];
-picked_trim = 5;
+picked_trim = 6;
 
 figure(1)
 for i = 1:6
@@ -36,7 +36,7 @@ grid on
 xlim([-2,10])
 xlabel('\alpha (deg)')
 ylabel('C_m')
-title('C_m vs \alpha @ Cruise (12 m/s)')
+title('Trim Diagram @ Cruise (39 ft/s)')
 
 % hleg = legend(trim_list);
 % htitle = get(hleg,'Title');

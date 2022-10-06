@@ -17,16 +17,33 @@ l_d_max = [10, 10, 10, 10, 10];
 n = 3;
 e = 0.8; % span efficiency
 
+%% Designs
+% Old design
 max_power = 786.9837; % watts
 weight = 8.031; % lbf
 span = 8; % ft
 chord = 1; % ft
 wing_area = span*chord; % ft^2
-AR = span/chord;
 motor_power = max_power*0.00134102; % hp
 
-wing_load = weight/wing_area;
-power_load = weight/motor_power;
+wing_load_old = weight/wing_area;
+power_load_old = weight/motor_power;
+
+% New design
+max_power = 786.9837; % watts
+weight = 7.061; % lbf
+span = 100/12; % ft
+chord = 14/12; % ft
+wing_area = span*chord; % ft^2
+motor_power = max_power*0.00134102; % hp
+
+wing_load_new = weight/wing_area;
+power_load_new = weight/motor_power;
+
+T = 5; %lbf
+AoA_stall = 15; % deg
+
+AR = span/chord;
 
 %% Plotting
 MIN_X = 0;
@@ -41,6 +58,7 @@ y_cd = zeros(5,length(x_cd));
 y_ld = zeros(testcase,length(x_cd));
 x_cl = zeros(testcase,length(y_cl));
 x_cl2 = zeros(testcase,length(y_cl));
+x_cl3 = zeros(testcase,length(y_cl));
 y_3g = zeros(testcase,length(x_cd));
 for i = 1:testcase
     % Cruise Speed
@@ -60,6 +78,9 @@ for i = 1:testcase
     x_cl2(i,:) = y_cl .* 0 + (.5 * p * v_stall2^2 * cl_max(i)); % N/m^2
     x_cl2(i,:) = x_cl2(i,:)*0.224809/(3.28084^2); % lbf/ft^2
 
+    x_cl3(i,:) = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(i)); % N/m^2
+    x_cl3(i,:) = T/wing_area*sind(AoA_stall)+x_cl3(i,:)*0.224809/(3.28084^2); % lbf/ft^2
+
     % 3G Turn
     V_turn = v_stall*sqrt(n);
     q = 0.5*p*V_turn^2; % N/m^2
@@ -76,8 +97,8 @@ figure(1)
 for i = 1:testcase
     plot(x_cl(i,:), y_cl,'--r');
     hold on
-    hold on
     plot(x_cl2(1,:), y_cl,'r');
+    hold on
     plot(x_cd, y_cd(i,:),'b');
     hold on
     plot(x_cd, y_ld(i,:),'g');
@@ -85,9 +106,15 @@ for i = 1:testcase
     plot(x_cd,y_3g(i,:),'k')
     hold on
 end
-plot(wing_load,power_load,'kx')
+plot(wing_load_old,power_load_old,'ko')
 hold on
-text(wing_load+0.03,power_load,'Current Design')
+text(wing_load_old+0.03,power_load_old,'Previous Design','HorizontalAlignment','left')
+hold on 
+plot(wing_load_new,power_load_new,'kx')
+hold on
+text(wing_load_new-0.03,power_load_new,'Current Design','HorizontalAlignment','right')
+
+
 hold on
 h = text(x_cl(1,1)-0.03, 30,'Predicted');
 set(h,'Rotation',90);
