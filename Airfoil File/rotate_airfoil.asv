@@ -37,7 +37,7 @@ rotated_final(:,2) = rotated_final(:,2) - rotated_final(1,2); % Set initial poin
 upper_clear = max(rotated_final(:,2));
 lower_clear = min(rotated_final(:,2));
 
-fprintf('Upper Clearance: %0.4f inches\nLower Clearance: %0.4f inches\n',upper_clear,lower_clear)
+fprintf('Upper Clearance: %0.2d inches\nLower Clearance: %0.2d inches\n',upper_clear,lower_clear)
 
 figure(1)
 plot(original(:,1),original(:,2),'k--')
@@ -50,4 +50,4 @@ text(rotated_final(ind_find,1),rotated_final(ind_find,2)+0.5,"Max Thickness: " +
 grid on
 axis equal
 
-writematrix(rotated_final/max(rotated_final(:,1)),'Rotated_Airfoil.csv') %nondimensionalization by chord 
+writematrix(rotated_final,'Rotated_Airfoil.csv') 
