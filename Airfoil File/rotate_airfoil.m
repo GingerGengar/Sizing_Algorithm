@@ -49,5 +49,8 @@ hold on
 text(rotated_final(ind_find,1),rotated_final(ind_find,2)+0.5,"Max Thickness: " + num2str(min_thickness)+ "in, \theta: " + num2str(theta_rotation)+"^{\circ}")
 grid on
 axis equal
-
+title("Rotated Airfoil")
+xlabel("Chord Length (inches)")
+xlabel("Height (inches)")
+legend("Original Orientation","Rotated Airfoil")
 writematrix(rotated_final/max(rotated_final(:,1)),'Rotated_Airfoil.csv') %nondimensionalization by chord 
