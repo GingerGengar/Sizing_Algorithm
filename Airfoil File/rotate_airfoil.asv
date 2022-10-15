@@ -37,7 +37,7 @@ rotated_final(:,2) = rotated_final(:,2) - rotated_final(1,2); % Set initial poin
 upper_clear = max(rotated_final(:,2));
 lower_clear = min(rotated_final(:,2));
 
-fprintf('Upper Clearance: %0.4f inches\nLower Clearance: %0.4f inches\n',upper_clear,lower_clear)
+fprintf('Upper Clearance: %0.2d inches\nLower Clearance: %0.2d inches\n',upper_clear,lower_clear)
 
 figure(1)
 plot(original(:,1),original(:,2),'k--')
@@ -49,8 +49,5 @@ hold on
 text(rotated_final(ind_find,1),rotated_final(ind_find,2)+0.5,"Max Thickness: " + num2str(min_thickness)+ "in, \theta: " + num2str(theta_rotation)+"^{\circ}")
 grid on
 axis equal
-title("Rotated Airfoil")
-xlabel("Chord Length (inches)")
-xlabel("Height (inches)")
-legend("Original Orientation","Rotated Airfoil")
-writematrix(rotated_final/max(rotated_final(:,1)),'Rotated_Airfoil.csv') %nondimensionalization by chord 
+
+writematrix(rotated_final,'Rotated_Airfoil.csv') 
