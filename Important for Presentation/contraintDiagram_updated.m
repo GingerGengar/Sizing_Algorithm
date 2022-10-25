@@ -40,7 +40,7 @@ motor_power = max_power*0.00134102; % hp
 wing_load_new = weight/wing_area;
 power_load_new = weight/motor_power;
 
-T = 5; %lbf
+T = 15; %lbf
 AoA_stall = 15; % deg
 
 AR = span/chord;
@@ -78,6 +78,7 @@ for i = 1:testcase
     x_cl2(i,:) = y_cl .* 0 + (.5 * p * v_stall2^2 * cl_max(i)); % N/m^2
     x_cl2(i,:) = x_cl2(i,:)*0.224809/(3.28084^2); % lbf/ft^2
 
+    % Power-on Stall 
     x_cl3(i,:) = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(i)); % N/m^2
     x_cl3(i,:) = T/wing_area*sind(AoA_stall)+x_cl3(i,:)*0.224809/(3.28084^2); % lbf/ft^2
 
@@ -99,6 +100,8 @@ for i = 1:testcase
     hold on
     plot(x_cl2(1,:), y_cl,'r');
     hold on
+    plot(x_cl3(1,:), y_cl,'--r');
+    hold on
     plot(x_cd, y_cd(i,:),'b');
     hold on
     plot(x_cd, y_ld(i,:),'g');
@@ -106,21 +109,24 @@ for i = 1:testcase
     plot(x_cd,y_3g(i,:),'k')
     hold on
 end
-plot(wing_load_old,power_load_old,'ko')
-hold on
-text(wing_load_old+0.03,power_load_old,'Previous Design','HorizontalAlignment','left')
+% plot(wing_load_old,power_load_old,'ko')
+% hold on
+% text(wing_load_old+0.03,power_load_old,'Previous Design','HorizontalAlignment','left')
 hold on 
 plot(wing_load_new,power_load_new,'kx')
 hold on
-text(wing_load_new-0.03,power_load_new,'Current Design','HorizontalAlignment','right')
+text(wing_load_new+0.03,power_load_new,'Current Design','HorizontalAlignment','left')
 
 
 hold on
-h = text(x_cl(1,1)-0.03, 30,'Predicted');
+h = text(x_cl(1,1)-0.03, 30,'Power-off Stall');
 set(h,'Rotation',90);
 hold on
 s = text(x_cl2(1,1)-0.03, 30,'Historical');
 set(s,'Rotation',90);
+hold on
+h = text(x_cl3(1,1)-0.03, 30,'Power-on Stall');
+set(h,'Rotation',90);
 
 xlabel('Wing Loading W/S (lbf/ft^2)');
 ylabel('Power Loading W/P (lbf/hp)');
@@ -129,6 +135,6 @@ grid on;
 %axis([MIN_X MAX_X 0 MAX_Y]);
 xlim([0,1.5])
 ylim([-inf, 75])
-hleg = legend('','Stall Speed','Cruise Speed','Climb Angle','3G Turn');
+hleg = legend('','Stall Speed','','Cruise Speed','Climb Angle','3G Turn');
 htitle = get(hleg,'Title');
 set(htitle,'String','Constraints')
