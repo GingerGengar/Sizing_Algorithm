@@ -11,6 +11,7 @@ eff = 0.8;
 
 current_list = [50,30,10,1]; % Current (Amps) per flight profile
 profile_time = [1,7,2,1]; % Minutes per profile
+flight_checkpoint = cumsum(profile_time);
 
 current_battery = battery_capacity_max;
 battery_capacity_hist(1) = current_battery;
@@ -40,3 +41,7 @@ ylabel('Battery Percentage (%)')
 ylim([0,1])
 yline(0.2,'r-','Max Discharge Threshold (20%)')
 title('Battery Usage During Mission')
+grid on
+for i = 1:length(profile_time)
+    xline(flight_checkpoint(i),'k--')
+end

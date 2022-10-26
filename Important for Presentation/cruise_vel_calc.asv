@@ -1,0 +1,12 @@
+v = linspace(15,45); 0.3048; % velocity (m/s)
+
+S = ; % Reference area (m^2)
+rho = 1.225; % density (kg/m^3)
+W = ; % Weight (N)
+V = 14.7; % Voltage battery (V)
+C = 6600/1000; % Battery Capacity (Ah)
+
+Cd0 = ;
+Cl_cruise = ;
+k = ; % Drag Polar Coefficient
+eff = 1;
