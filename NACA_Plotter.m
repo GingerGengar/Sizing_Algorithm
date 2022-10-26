@@ -70,9 +70,11 @@ xlabel("Chord (X position of airfoil)") % X axis title.
 ylabel("Thickness (Y position of airfoil)") % Y axis title.
 %legend("Upper Surface", "Lower Surface", "Camber Line", "Chord line", "Location", "Best")
 
+%% Create Coordinates of Standard Wing
 xs = [x1'; flipud(xu')];
 ys = [y1';flipud(yu')];
 OutputForDat = [xs,ys];
+%csvwrite("AIRFOILPLOTTED.csv",OutputForDat)
 
 %% WING CALCULATIONS
 SMALL_WING_SPAN = 36; %Inches
@@ -80,11 +82,20 @@ SMALL_WING_CHORD = 5.04; % Inches
 SMALL_WING_AREA = trapz(xu*SMALL_WING_CHORD,yu*SMALL_WING_CHORD)...
     - trapz(x1*SMALL_WING_CHORD,y1*SMALL_WING_CHORD); % Area of the wing in inch^2
 
-SMALL_WING_VOLUME = SMALL_WING_AREA * SMALL_WING_SPAN; % Volume in Inch^3
-SMALL_WING_MASS = 1; % IN KG
+SMALL_WING_VOLUME = SMALL_WING_AREA * SMALL_WING_SPAN * 1.63871e-5; % Volume in m^3
+SMALL_WING_MASS = 27/1000; % IN KG
 
-%csvwrite("AIRFOILPLOTTED.csv",OutputForDat)
+FOAMDENSITY1 = SMALL_WING_MASS/SMALL_WING_VOLUME;
 
+BLOCK_VOLUME = 2*31*15.75* 1.63871e-5;
+BLOCK_MASS = 399/1000;
+
+FOAMDENSITY2 = BLOCK_MASS/BLOCK_VOLUME;
+
+averageDensity = (FOAMDENSITY2 + FOAMDENSITY1)/2;
+
+
+%% Compute Thickness
 % LOWER = [x1'*1.16666*12, y1'*1.16666*12]; %% For solidworks part it must be zyx
 % UPPER = flip([xu'*1.16666*12, yu'*1.16666*12]);
 % 
