@@ -25,8 +25,8 @@ max_n_neg = min_n*ones(prec,1);
 v_a = vel(find(stall_n_pos_noflap>max_n,1)); % Manuevering Speed
 
 %% Max Q
-v_cruise = 14; 
-v_dive = v_cruise*1.2; % m/s
+v_cruise = 7.62; 
+v_dive = 13; % m/s
 
 %% Gust Speeds
 Cl_alpha = 0.7;
@@ -64,7 +64,7 @@ end
 yline(0)
 xlabel('Velocity (ft/s)')
 ylabel('Load Factor (g)')
-xlim([0,inf])
+xlim([0,45])
 ylim([min_n-1,max_n+1])
 legend('Stall','','Max Load','','','','1g','','',"Gust Load @ -30,-15,15,30 Knots",'Location','northwest')
 title('V-n Diagram')
