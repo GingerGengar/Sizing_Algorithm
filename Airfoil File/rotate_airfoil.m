@@ -53,4 +53,4 @@ title("Rotated Airfoil")
 xlabel("Chord Length (inches)")
 xlabel("Height (inches)")
 legend("Original Orientation","Rotated Airfoil")
-writematrix(rotated_final/max(rotated_final(:,1)),'Rotated_Airfoil.csv') %nondimensionalization by chord 
+%writematrix(rotated_final/max(rotated_final(:,1)),'Rotated_Airfoil.csv') %nondimensionalization by chord 

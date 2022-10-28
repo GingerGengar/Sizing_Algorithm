@@ -19,19 +19,19 @@ e = 0.8; % span efficiency
 
 %% Designs
 % Old design
-max_power = 786.9837; % watts
-weight = 8.031; % lbf
-span = 8; % ft
-chord = 1; % ft
-wing_area = span*chord; % ft^2
-motor_power = max_power*0.00134102; % hp
-
-wing_load_old = weight/wing_area;
-power_load_old = weight/motor_power;
+% max_power = 786.9837; % watts
+% weight = 8.031; % lbf
+% span = 8; % ft
+% chord = 1; % ft
+% wing_area = span*chord; % ft^2
+% motor_power = max_power*0.00134102; % hp
+% 
+% wing_load_old = weight/wing_area;
+% power_load_old = weight/motor_power;
 
 % New design
 max_power = 786.9837; % watts
-weight = 7.061; % lbf
+weight = 10.061; % lbf
 span = 100/12; % ft
 chord = 14/12; % ft
 wing_area = span*chord; % ft^2
@@ -40,7 +40,7 @@ motor_power = max_power*0.00134102; % hp
 wing_load_new = weight/wing_area;
 power_load_new = weight/motor_power;
 
-T = 15; %lbf
+T = 4; %lbf
 AoA_stall = 15; % deg
 
 AR = span/chord;
@@ -57,7 +57,7 @@ testcase = length(cd0); % number of test cases
 y_cd = zeros(5,length(x_cd));
 y_ld = zeros(testcase,length(x_cd));
 x_cl = zeros(testcase,length(y_cl));
-x_cl2 = zeros(testcase,length(y_cl));
+x_cl_historial = zeros(testcase,length(y_cl));
 x_cl3 = zeros(testcase,length(y_cl));
 y_3g = zeros(testcase,length(x_cd));
 for i = 1:testcase
@@ -75,8 +75,8 @@ for i = 1:testcase
     x_cl(i,:) = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(i)); % N/m^2
     x_cl(i,:) = x_cl(i,:)*0.224809/(3.28084^2); % lbf/ft^2
 
-    x_cl2(i,:) = y_cl .* 0 + (.5 * p * v_stall2^2 * cl_max(i)); % N/m^2
-    x_cl2(i,:) = x_cl2(i,:)*0.224809/(3.28084^2); % lbf/ft^2
+    x_cl_historial(i,:) = y_cl .* 0 + (.5 * p * v_stall2^2 * cl_max(i)); % N/m^2
+    x_cl_historial(i,:) = x_cl_historial(i,:)*0.224809/(3.28084^2); % lbf/ft^2
 
     % Power-on Stall 
     x_cl3(i,:) = y_cl .* 0 + (.5 * p * v_stall^2 * cl_max(i)); % N/m^2
@@ -98,7 +98,7 @@ figure(1)
 for i = 1:testcase
     plot(x_cl(i,:), y_cl,'--r');
     hold on
-    plot(x_cl2(1,:), y_cl,'r');
+    %plot(x_cl_historial(1,:), y_cl,'r');
     hold on
     plot(x_cl3(1,:), y_cl,'--r');
     hold on
@@ -115,15 +115,30 @@ end
 hold on 
 plot(wing_load_new,power_load_new,'kx')
 hold on
-text(wing_load_new+0.03,power_load_new,'Current Design','HorizontalAlignment','left')
+%text(wing_load_new+0.02,power_load_new,'Current Design','HorizontalAlignment','left')
+
+%% Our Teams
+adjustment = 0.02;
+hold on 
+plot(9.13/7.75,9.13/1,'ro')
+hold on
+%text(9.13/7.75+adjustment,9.13/1,'A - 11.5 ft/s','HorizontalAlignment','left')
+hold on 
+plot(0.8457,7.2,'bo')
+hold on
+%text(0.8457+adjustment,7.2,'B - 14.76 ft/s','HorizontalAlignment','left')
+hold on 
+plot(10.49/8.64,10.49/1,'co')
+hold on
+%text(10.49/8.64+adjustment,10.49/1,'F - 12 ft/s','HorizontalAlignment','left')
 
 
 hold on
 h = text(x_cl(1,1)-0.03, 30,'Power-off Stall');
 set(h,'Rotation',90);
-hold on
-s = text(x_cl2(1,1)-0.03, 30,'Historical');
-set(s,'Rotation',90);
+% hold on
+% s = text(x_cl2(1,1)-0.03, 30,'Historical');
+% set(s,'Rotation',90);
 hold on
 h = text(x_cl3(1,1)-0.03, 30,'Power-on Stall');
 set(h,'Rotation',90);
@@ -131,10 +146,15 @@ set(h,'Rotation',90);
 xlabel('Wing Loading W/S (lbf/ft^2)');
 ylabel('Power Loading W/P (lbf/hp)');
 title('AAE 451 Team 7 Constraint Diagram');
+subtitle("Historical Teams's Design w/ Stall Speed")
 grid on;
 %axis([MIN_X MAX_X 0 MAX_Y]);
 xlim([0,1.5])
 ylim([-inf, 75])
-hleg = legend('','Stall Speed','','Cruise Speed','Climb Angle','3G Turn');
+
+hleg = legend('','','','','','','','','','','','','','','','','','','','','','','','','','Current Design','Team A - 11.5 ft/s','Team B - 14.76 ft/s','Team F - 12 ft/s');
 htitle = get(hleg,'Title');
-set(htitle,'String','Constraints')
+set(htitle,'String',"Historical Teams's Designs")
+% hleg = legend('','Stall Speed','Cruise Speed','Climb Angle','3G Turn');
+% htitle = get(hleg,'Title');
+% set(htitle,'String','Constraints')
