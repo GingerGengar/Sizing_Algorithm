@@ -42,11 +42,12 @@ hold on
 plot(x_uniform*b*39.3701/2,deflection_maxVel)
 hold on
 plot(x_uniform*b*39.3701/2,deflection_3G)
-axis equal
 xlabel('Distance from Plane Centerline (inches)')
 ylabel('Deflection (inches)')
 grid
-title('Deflection along Wing (axis equalled)')
+title('Deflection along Wing')
+%title('Deflection along Wing (axis equalled)')
+%axis equal
 
 
 % figure(1)

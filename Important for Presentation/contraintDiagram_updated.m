@@ -146,15 +146,16 @@ set(h,'Rotation',90);
 xlabel('Wing Loading W/S (lbf/ft^2)');
 ylabel('Power Loading W/P (lbf/hp)');
 title('AAE 451 Team 7 Constraint Diagram');
-subtitle("Historical Teams's Design w/ Stall Speed")
-grid on;
+%subtitle("Historical Designs w/ Stall Speed")
 %axis([MIN_X MAX_X 0 MAX_Y]);
 xlim([0,1.5])
 ylim([-inf, 75])
 
 hleg = legend('','','','','','','','','','','','','','','','','','','','','','','','','','Current Design','Team A - 11.5 ft/s','Team B - 14.76 ft/s','Team F - 12 ft/s');
 htitle = get(hleg,'Title');
-set(htitle,'String',"Historical Teams's Designs")
+set(htitle,'String',"Historical Designs w/ Stall Speed")
+
+
 % hleg = legend('','Stall Speed','Cruise Speed','Climb Angle','3G Turn');
 % htitle = get(hleg,'Title');
 % set(htitle,'String','Constraints')
