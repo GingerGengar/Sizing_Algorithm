@@ -28,25 +28,46 @@ Rt = 20; % Battery Hour Rating (hours)
 endurance = zeros(length(Cd0),length(vel));
 
 for i = 1:length(Cd0)
-    endurance(i,:) = Rt^(1-n)*(eff*V*C./(0.5*rho*vel.^3*S*Cd0(i)+(2*W^2*k./(rho*vel*S)))).^n * 60; % minutes
+    endurance(i,:) = 0.5*Rt^(1-n)*(eff*V*C./(0.5*rho*vel.^3*S*Cd0(i)+(2*W^2*k./(rho*vel*S)))).^n * 60; % minutes
 end
 
-[max_end,ind]=max(0.5*endurance);
+[max_end,ind]=max(endurance);
 
 figure(1)
+subplot(2,1,1)
 for i = 1:length(Cd0)
-    plot(vel*3.28084,0.5*endurance(i,:))
+    plot(vel*3.28084,endurance(i,:))
     hold on
 end
 plot(vel(ind)*3.28084,max_end,'r*')
 hold on
-text(vel(ind)*3.28084,max_end+0.5,'Cruise Speed: 25 ft/s')
+text(vel(ind)*3.28084,max_end+0.5,'V_c = 25 ft/s')
 xlabel('Cruise Velocity (ft/s)')
 ylabel('Endurance (min)')
 yline(10,'r-','10 min RFP Endurance Req')
 hold on
-xline(15,'k-','Stall Speed')
+xline(15,'k-','Stall Requirement')
 title('Cruise Speed vs Endurance')
 subtitle('Accounting for Prop Efficiency & Temperature')
+ylim([0,25])
 %legend("Cd_0 = 0.1","Cd_0 = 0.25","Cd_0 = 0.3","Cd_0 = 0.4")
 %Cd0 = [0.1,0.25,0.30,0.4];
+
+range = 60*endurance(i,:).*vel*3.28084*0.000189394; % miles
+[max_range,ind]=max(range);
+
+subplot(2,1,2)
+for i = 1:length(Cd0)
+    plot(vel*3.28084,range)
+    hold on
+end
+plot(vel(ind)*3.28084,max_range,'r*')
+hold on
+text(vel(ind)*3.28084,max_range+0.1,'V_c = 31 ft/s')
+ylim([0,7])
+xlabel('Cruise Velocity (ft/s)')
+ylabel('Range (miles)')
+title('Cruise Speed vs Range')
+subtitle('Accounting for Prop Efficiency & Temperature')
+hold on
+xline(15,'k-','Stall Requirement')

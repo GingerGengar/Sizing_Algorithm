@@ -14,9 +14,11 @@ V_Cruise = 7.67675376; % m/s
 [x_uniform,moment_cruise,deflection_cruise,load_XFRL,load_approx,deflection_approx,moment_approx] = wing_deflection_fun(N,V_Cruise);
 
 N = 3; 
-[~,moment_3G,deflection_3G,~,~,~,~] = wing_deflection_fun(N,V_Cruise);
+V_3G = 10.9728; 
+[~,moment_3G,deflection_3G,~,~,~,~] = wing_deflection_fun(N,V_3G);
 
-V_max = V_Cruise*1.2; % m/s
+N = 1;
+V_max = 13; %V_Cruise*1.2; % m/s
 [~,moment_maxVel,deflection_maxVel,~,~,~,~] = wing_deflection_fun(N,V_max);
 
 %% Comparing Loads
@@ -27,7 +29,7 @@ hold on
 plot(x_uniform,moment_maxVel)
 hold on
 plot(x_uniform,moment_3G)
-legend('Cruise @ 25 ft/s','Max Velocity (1.2V_{cruise})','3G Turn @ Cruise Speed')
+legend('Cruise @ 25 ft/s','Max Speed','3G Turn @ V_a')
 xlabel('% Half Span')
 ylabel('Bending Moment (lbs-ft)')
 grid
@@ -40,11 +42,12 @@ hold on
 plot(x_uniform*b*39.3701/2,deflection_maxVel)
 hold on
 plot(x_uniform*b*39.3701/2,deflection_3G)
-axis equal
 xlabel('Distance from Plane Centerline (inches)')
 ylabel('Deflection (inches)')
 grid
-title('Deflection along Wing (axis equalled)')
+title('Deflection along Wing')
+%title('Deflection along Wing (axis equalled)')
+%axis equal
 
 
 % figure(1)

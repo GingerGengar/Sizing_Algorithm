@@ -7,12 +7,12 @@ prec = 1000;
 vel = linspace(0,20,prec);
 
 %% Stall Flight
-cl_max_noflap = 1.6;
-cl_min_noflap = -0.3;
+cl_max_flap = 1.6;
+cl_min_flap = -0.3;
 wing_area = 0.9; % m^2 
 m = 3.6; % kg
-stall_n_pos_noflap = (1/2*rho*cl_max_noflap*vel.^2*wing_area)/(m*g);
-stall_n_neg_noflap = (1/2*rho*cl_min_noflap*vel.^2*wing_area)/(m*g);
+stall_n_pos_noflap = (1/2*rho*cl_max_flap*vel.^2*wing_area)/(m*g);
+stall_n_neg_noflap = (1/2*rho*cl_min_flap*vel.^2*wing_area)/(m*g);
 v_1g_pos = vel(find(stall_n_pos_noflap>1,1));
 v_1g_neg = vel(find(stall_n_neg_noflap<-1,1));
 
@@ -25,8 +25,8 @@ max_n_neg = min_n*ones(prec,1);
 v_a = vel(find(stall_n_pos_noflap>max_n,1)); % Manuevering Speed
 
 %% Max Q
-v_cruise = 14; 
-v_dive = v_cruise*1.2; % m/s
+v_cruise = 7.62; 
+v_dive = 13; % m/s
 
 %% Gust Speeds
 Cl_alpha = 0.7;
@@ -46,12 +46,16 @@ plot(vel_imperial,max_n_pos,'r--')
 hold on 
 plot(vel_imperial,max_n_neg,'r--')
 hold on
-xline(v_dive*3.28084,'-',{'V_D'},'LabelOrientation','horizontal')
+xline(v_dive*3.28084,'-',{'V_D'},'LabelOrientation','horizontal') 
 hold on
-xline(v_cruise*3.28084,'--',{'V_C'},'LabelOrientation','horizontal')
+xline(v_cruise*3.28084,'--',{'V_{C,low}'},'LabelOrientation','horizontal') % Low VC
+hold on
+xline(31,'--',{'V_{C,high}'},'LabelOrientation','horizontal') % High VC
 hold on
 %xline(v_1g_pos*3.28084,'--',{'V_{stall,1g}'},'LabelOrientation','horizontal')
 plot(v_1g_pos*3.28084,1,'r*')
+hold on
+text(v_1g_pos*3.28084+1,1+0.05,'Stall Speed = 21.02 ft/s')
 hold on
 %xline(v_1g_neg*3.28084,'--',{'V_{stall,1g}'},'LabelOrientation','horizontal')
 plot(v_1g_neg*3.28084,-1,'r*')
@@ -64,7 +68,7 @@ end
 yline(0)
 xlabel('Velocity (ft/s)')
 ylabel('Load Factor (g)')
-xlim([0,inf])
+xlim([0,45])
 ylim([min_n-1,max_n+1])
 legend('Stall','','Max Load','','','','1g','','',"Gust Load @ -30,-15,15,30 Knots",'Location','northwest')
 title('V-n Diagram')
