@@ -9,8 +9,8 @@ battery_capacity_hist = zeros(prec,1);
 
 eff = 0.8;
 
-current_list = [50,35,4,50,4]; % Current (Amps) per flight profile
-profile_time = [1,2,10,2,3]; % Minutes per profile
+current_list = [45,35,5,15,5]; % Current (Amps) per flight profile
+profile_time = [2,2,10,2,3]; % Minutes per profile
 flight_checkpoint = cumsum(profile_time);
 
 current_battery = battery_capacity_max;
