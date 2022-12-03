@@ -29,12 +29,15 @@ hold on
 plot(x_uniform,moment_maxVel)
 hold on
 plot(x_uniform,moment_3G)
+hold on 
+yline(42,'k--','Motor/Wing Mount Threshold')
 legend('Cruise @ 25 ft/s','Max Speed','3G Turn @ V_a')
 xlabel('% Half Span')
 ylabel('Bending Moment (lbs-ft)')
 grid
 hold off
 title('Bending Moment along Wing')
+ylim([0,50])
 
 subplot(2,1,2)
 plot(x_uniform*b*39.3701/2,deflection_cruise)
@@ -46,6 +49,7 @@ xlabel('Distance from Plane Centerline (inches)')
 ylabel('Deflection (inches)')
 grid
 title('Deflection along Wing')
+legend('Cruise @ 25 ft/s','Max Speed','3G Turn @ V_a')
 %title('Deflection along Wing (axis equalled)')
 %axis equal
 

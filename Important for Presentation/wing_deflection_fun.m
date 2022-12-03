@@ -15,7 +15,8 @@ function [x_uniform,moment,deflection,load_XFRL,load_approx,deflection_approx,mo
     
     load_XFRL = N*(cl_dist*q*ref_area-mass_length*b);
     
-    E = 4.5260e+08; % Pa
+    %E = 4.5260e+08; % Pa
+    E = 1.2763e+05;
     I = 9.98955421E-4; % m^2 (I = 2400 in^4)
     ei = E*I;
     l=1;
